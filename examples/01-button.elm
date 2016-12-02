@@ -1,55 +1,49 @@
 import Html exposing (Html, button, div, text)
+import Html.Attributes exposing (disabled, style)
 import Html.Events exposing (onClick)
-
-
 
 main =
   Html.beginnerProgram
     { model = model
-    , view = view
     , update = update
+    , view = view
     }
 
+-- Model
 
-
--- MODEL
-
-
-type alias Model = Int
-
+type alias Model =
+  { count : Int
+  }
 
 model : Model
-model =
-  0
+model = {count = 0}
 
+-- View
 
+view : Model -> Html Msg
+view model =
+  div []
+    [ Html.span [style
+        [ ("min-width", "2em")
+        , ("display", "inline-block") ] ]
+        [ text (toString model.count) ]
+    , button [ onClick Decrement, disabled (model.count <= 0) ] [ text "-" ]
+    , button [ onClick Increment ] [ text "+" ]
+    , div [] [ text ("model: " ++ (toString model)) ]
+    ]
 
--- UPDATE
-
+-- Update
 
 type Msg
   = Increment
   | Decrement
 
-
 update : Msg -> Model -> Model
 update msg model =
   case msg of
     Increment ->
-      model + 1
-
+      { model | count = model.count + 1 }
     Decrement ->
-      model - 1
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (toString model) ]
-    , button [ onClick Increment ] [ text "+" ]
-    ]
+      if model.count > 0 then
+        { model | count = model.count - 1 }
+      else model
