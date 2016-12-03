@@ -60,32 +60,37 @@ role v = attribute "role" v
 ariaLabel : String -> Html.Attribute msg
 ariaLabel v = attribute "aria-label" v
 
+wrap : String -> List (Html msg) -> Html msg
+wrap title children =
+  div [class "container"] (
+    [ div
+        [class "container"]
+        ([ h1 [] [text title] ] ++ children)
+    ] ++ bootstrapV4)
+
 view : Model -> Html Msg
 view model =
-  div [class "container"]
-    ([ div [class "container"]
-      [ h1 [] [text "01-button"]
-      , p []
-        [ Html.span [style
-            [ ("min-width", "2em")
-            , ("display", "inline-block") ] ]
-            [ text (toString model.count) ]
-        , div
-          [ class "btn-group"
-          , role "group"
-          , ariaLabel "Basic example"
-          ]
-          [ button
-              [ class "btn btn-primary"
-              , onClick Decrement, disabled (model.count <= 0)
-              ]
-              [ text "-" ]
-          , button
-              [ class "btn btn-primary"
-              , onClick Increment
-              ]
-              [ text "+" ]
-          ]
+  wrap "01-button"
+    [ p []
+      [ Html.span [style
+          [ ("min-width", "2em")
+          , ("display", "inline-block") ] ]
+          [ text (toString model.count) ]
+      , div
+        [ class "btn-group"
+        , role "group"
+        , ariaLabel "Basic example"
+        ]
+        [ button
+            [ class "btn btn-primary"
+            , onClick Decrement, disabled (model.count <= 0)
+            ]
+            [ text "-" ]
+        , button
+            [ class "btn btn-primary"
+            , onClick Increment
+            ]
+            [ text "+" ]
         ]
       ]
     , div
@@ -93,7 +98,7 @@ view model =
         , attribute "role" "alert"
         ]
         [ text ("model: " ++ (toString model)) ]
-    ] ++ bootstrapV4)
+    ]
 
 -- Update
 
