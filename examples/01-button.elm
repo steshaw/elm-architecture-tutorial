@@ -1,5 +1,5 @@
-import Html exposing (Html, node, button, div, text)
-import Html.Attributes exposing (attribute, disabled, style, rel, href, src, class)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 
 main =
@@ -62,27 +62,30 @@ ariaLabel v = attribute "aria-label" v
 
 view : Model -> Html Msg
 view model =
-  div [class "container-fluid"]
+  div [class "container"]
     ([ div [class "container"]
-      [ Html.span [style
-          [ ("min-width", "2em")
-          , ("display", "inline-block") ] ]
-          [ text (toString model.count) ]
-      , div
-        [ class "btn-group"
-        , role "group"
-        , ariaLabel "Basic example"
-        ]
-        [ button
-            [ class "btn btn-primary"
-            , onClick Decrement, disabled (model.count <= 0)
-            ]
-            [ text "-" ]
-        , button
-            [ class "btn btn-primary"
-            , onClick Increment
-            ]
-            [ text "+" ]
+      [ h1 [] [text "01-button"]
+      , p []
+        [ Html.span [style
+            [ ("min-width", "2em")
+            , ("display", "inline-block") ] ]
+            [ text (toString model.count) ]
+        , div
+          [ class "btn-group"
+          , role "group"
+          , ariaLabel "Basic example"
+          ]
+          [ button
+              [ class "btn btn-primary"
+              , onClick Decrement, disabled (model.count <= 0)
+              ]
+              [ text "-" ]
+          , button
+              [ class "btn btn-primary"
+              , onClick Increment
+              ]
+              [ text "+" ]
+          ]
         ]
       ]
     , div
