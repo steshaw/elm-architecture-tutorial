@@ -29,8 +29,10 @@ view : Model -> Html Msg
 view model =
   Bootstrap.wrap "04-random"
     [ div []
-        [ h2 [] [ text (toString model.dieFace) ]
-        , button [ class "btn btn-primary", onClick Roll ] [ text "Roll" ]
+        [ span [class "col-md-1"] [ text (toString model.dieFace) ]
+        , div [class "col-md-1"]
+            [ button [ class "btn btn-secondary btn-sm", onClick Roll ] [ text "Roll" ]
+            ]
         ]
     ]
 
