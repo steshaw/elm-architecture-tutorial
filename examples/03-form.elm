@@ -2,6 +2,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 
+import Bootstrap exposing (..)
 
 main =
   Html.beginnerProgram
@@ -10,10 +11,7 @@ main =
     , update = update
     }
 
-
-
--- MODEL
-
+-- Model
 
 type alias Model =
   { name : String
@@ -21,21 +19,42 @@ type alias Model =
   , passwordAgain : String
   }
 
-
 model : Model
 model =
   Model "" "" ""
 
+-- View
 
+view : Model -> Html Msg
+view model =
+  Bootstrap.wrap "03-form"
+    [ div []
+        [ input [ type_ "text", placeholder "Name", class "form-control", onInput Name ] []
+        , input [ type_ "password", placeholder "Password", class "form-control", onInput Password ] []
+        , input [ type_ "password", placeholder "Re-enter Password", class "form-control", onInput PasswordAgain ] []
+        , viewValidation model
+        ]
+    ]
 
--- UPDATE
+viewValidation : Model -> Html msg
+viewValidation model =
+  let
+    (color, message) =
+      if model.password == "" || model.passwordAgain == "" then
+        ("green", "")
+      else if model.password == model.passwordAgain then
+        ("green", "OK")
+      else
+        ("red", "Passwords do not match!")
+  in
+    div [ style [("color", color)] ] [ text message ]
 
+-- Update
 
 type Msg
     = Name String
     | Password String
     | PasswordAgain String
-
 
 update : Msg -> Model -> Model
 update msg model =
@@ -48,29 +67,3 @@ update msg model =
 
     PasswordAgain password ->
       { model | passwordAgain = password }
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-  div []
-    [ input [ type_ "text", placeholder "Name", onInput Name ] []
-    , input [ type_ "password", placeholder "Password", onInput Password ] []
-    , input [ type_ "password", placeholder "Re-enter Password", onInput PasswordAgain ] []
-    , viewValidation model
-    ]
-
-
-viewValidation : Model -> Html msg
-viewValidation model =
-  let
-    (color, message) =
-      if model.password == model.passwordAgain then
-        ("green", "OK")
-      else
-        ("red", "Passwords do not match!")
-  in
-    div [ style [("color", color)] ] [ text message ]
