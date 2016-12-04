@@ -1,16 +1,17 @@
-import Html exposing (Html, fieldset, input, label, text)
-import Html.Attributes exposing (style, type_)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 
-
+import Bootstrap exposing (..)
 
 main =
-  Html.beginnerProgram { model = optOut, update = update, view = view }
+  Html.beginnerProgram
+    { model = optOut
+    , update = update
+    , view = view
+    }
 
-
-
--- MODEL
-
+-- Model
 
 type alias Model =
   { notifications : Bool
@@ -18,21 +19,35 @@ type alias Model =
   , location : Bool
   }
 
-
 optOut : Model
 optOut =
-  Model True True True
+  { notifications = False
+  , autoplay = False
+  , location = False
+  }
 
+-- View
 
+view : Model -> Html Msg
+view model =
+  Bootstrap.wrap "08-checkboxes"
+    [ div [class "container"]
+        [ checkbox ToggleNotifications "Email Notifications"
+        , checkbox ToggleAutoplay "Video Autoplay"
+        , checkbox ToggleLocation "Use Location"
+        ]
+    , div []
+        [
+          text (toString model)
+        ]
+    ]
 
--- UPDATE
-
+-- Update
 
 type Msg
   = ToggleNotifications
   | ToggleAutoplay
   | ToggleLocation
-
 
 update : Msg -> Model -> Model
 update msg model =
@@ -46,25 +61,12 @@ update msg model =
     ToggleLocation ->
       { model | location = not model.location }
 
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-  fieldset []
-    [ checkbox ToggleNotifications "Email Notifications"
-    , checkbox ToggleAutoplay "Video Autoplay"
-    , checkbox ToggleLocation "Use Location"
-    ]
-
-
 checkbox : msg -> String -> Html msg
 checkbox msg name =
-  label
-    [ style [("padding", "20px")]
-    ]
-    [ input [ type_ "checkbox", onClick msg ] []
-    , text name
+  div [ class "form-check" ]
+    [ label [ class "form-check-label" ]
+        [ input [ class "form-check-input", type_ "checkbox", onClick msg ]
+            []
+        , text name
+        ]
     ]
