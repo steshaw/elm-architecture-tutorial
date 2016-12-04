@@ -46,7 +46,8 @@ bootstrapV4 =
 wrap : String -> List (Html msg) -> Html msg
 wrap title children =
   div [class "container"] (
-    [ div
+    [ h1 [] [text title]
+    , div
         [class "container"]
-        ([ h1 [] [text title] ] ++ children)
+        children
     ] ++ bootstrapV4)

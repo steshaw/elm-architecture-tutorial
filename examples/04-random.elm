@@ -1,8 +1,9 @@
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Random
 
-
+import Bootstrap exposing (..)
 
 main =
   Html.program
@@ -12,29 +13,32 @@ main =
     , subscriptions = subscriptions
     }
 
-
-
--- MODEL
-
+-- Model
 
 type alias Model =
   { dieFace : Int
   }
 
-
 init : (Model, Cmd Msg)
 init =
   (Model 1, Cmd.none)
 
+-- View
 
+view : Model -> Html Msg
+view model =
+  Bootstrap.wrap "04-random"
+    [ div []
+        [ h2 [] [ text (toString model.dieFace) ]
+        , button [ class "btn btn-primary", onClick Roll ] [ text "Roll" ]
+        ]
+    ]
 
--- UPDATE
-
+-- Update
 
 type Msg
   = Roll
   | NewFace Int
-
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -45,23 +49,8 @@ update msg model =
     NewFace newFace ->
       (Model newFace, Cmd.none)
 
-
-
--- SUBSCRIPTIONS
-
+-- Subscriptions
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-  div []
-    [ h1 [] [ text (toString model.dieFace) ]
-    , button [ onClick Roll ] [ text "Roll" ]
-    ]
