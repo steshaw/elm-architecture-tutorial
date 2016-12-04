@@ -60,7 +60,6 @@ type Msg
   = Input String
   | Send
   | NewMessage String
-  | Nothing
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg {message, messages} =
@@ -73,8 +72,6 @@ update msg {message, messages} =
 
     NewMessage str ->
       (Model message (messages ++ [str]), Cmd.none)
-
-    Nothing -> (Model message messages, Cmd.none)
 
 -- Subscriptions
 
