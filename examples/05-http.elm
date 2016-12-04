@@ -34,7 +34,9 @@ view model =
   Bootstrap.wrap "05-http"
     [ div []
         [ h2 [] [text model.topic]
-        , button [ class "btn btn-secondary", onClick MorePlease ] [ text "More Please!" ]
+        , div [class "container"]
+            [ button [ class "btn btn-secondary", onClick MorePlease ] [ text "More Please!" ]
+            ]
         , br [] []
         , img [src model.gifUrl] []
         ]
